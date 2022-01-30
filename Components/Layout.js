@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Badge,
   Container,
   createTheme,
   CssBaseline,
@@ -18,7 +19,7 @@ import Cookies from "js-cookie";
 
 function Layout({ title, children, description }) {
   const { state, dispatch } = useContext(Store);
-  const { darkMode } = state;
+  const { darkMode, cart } = state;
   const theme = createTheme({
     typography: {
       h1: {
@@ -72,7 +73,18 @@ function Layout({ title, children, description }) {
                 onChange={darkModeChangedHandler}
               ></Switch>
               <NextLink href="/cart">
-                <Link>Cart</Link>
+                <Link>
+                  {cart.cartItems.length > 0 ? (
+                    <Badge
+                      color="secondary"
+                      badgeContent={cart.cartItems.length}
+                    >
+                      Cart
+                    </Badge>
+                  ) : (
+                    "Cart"
+                  )}
+                </Link>
               </NextLink>
               <NextLink href="/login">
                 <Link>Login</Link>
