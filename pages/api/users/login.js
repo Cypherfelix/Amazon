@@ -13,7 +13,7 @@ handler.post(async (req, res) => {
   if (user && bcrypt.compareSync(req.body.password, user.password)) {
     const token = signToken(user);
     res.send({
-      token,
+      token: token,
       _id: user._id,
       name: user.name,
       email: user.email,
