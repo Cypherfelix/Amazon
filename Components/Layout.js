@@ -77,7 +77,7 @@ function Layout({ title, children, description }) {
 
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <AppBar position="static" className={classes.navbar}>
+        <AppBar position="sticky" className={classes.navbar}>
           <Toolbar>
             <NextLink href="/" passHref>
               <Link>
@@ -92,7 +92,7 @@ function Layout({ title, children, description }) {
                 onChange={darkModeChangedHandler}
               ></Switch>
               <NextLink href="/cart">
-                <Link>
+                <Link className={classes.myLink}>
                   {cart.cartItems.length > 0 ? (
                     <Badge
                       color="secondary"
@@ -131,7 +131,7 @@ function Layout({ title, children, description }) {
                 </>
               ) : (
                 <NextLink href="/login">
-                  <Link>Login</Link>
+                  <Link className={classes.myLink}>Login</Link>
                 </NextLink>
               )}
             </div>

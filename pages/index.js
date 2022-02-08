@@ -15,12 +15,12 @@ import db from "../utils/db";
 import Product from "../models/Product";
 import axios from "axios";
 import { useContext } from "react";
-import { useRouter } from "next/router";
 import { Store } from "../utils/Store";
+import { useSnackbar } from "notistack";
 
 export default function Home(props) {
+  const { enqueueSnackbar } = useSnackbar();
   const { products } = props;
-  const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const addToCartHandler = async (product) => {
     const existItem = state.cart.cartItems.find((x) => x._id === product._id);
@@ -34,7 +34,12 @@ export default function Home(props) {
       type: "CART_ADD_ITEM",
       payload: { ...product, quantity },
     });
-    router.push("/cart");
+    enqueueSnackbar(product.name + " added to cart ", {
+      variant: "success",
+      autoHideDuration: 3000,
+    });
+
+    //router.push("/cart");
   };
 
   return (

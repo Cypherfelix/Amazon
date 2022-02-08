@@ -34,6 +34,9 @@ const useStyles = makeStyles({
     color: "white",
     textTransform: "initial",
   },
+  myLink: {
+    cursor: "pointer",
+  },
 });
 
 export default useStyles;
