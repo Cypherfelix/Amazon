@@ -48,6 +48,11 @@ function reducer(state, action) {
         ...state,
         cart: { ...state.cart, shippingAddress: action.payload },
       };
+    case "SAVE_PAYMENT_METHOD":
+      return {
+        ...state,
+        cart: { ...state.cart, payment: action.payload },
+      };
     case "USER_LOGIN":
       Cookies.set("userInfo", JSON.stringify(action.payload));
       return { ...state, userInfo: action.payload };

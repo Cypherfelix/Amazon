@@ -15,8 +15,8 @@ import Layout from "../Components/Layout";
 import { Store } from "../utils/Store";
 import useStyles from "../utils/styles";
 // import { useSnackbar } from "notistack";
-import Cookies from "js-cookie";
-import CheckoutWizard from "../Components/checkoutWizard";
+// import Cookies from "js-cookie";
+import CheckoutWizard from "../Components/CheckoutWizard";
 
 export default function Shipping() {
   const {
@@ -40,7 +40,16 @@ export default function Shipping() {
     setValue("city", shippingAddress.city);
     setValue("postalCode", shippingAddress.postalCode);
     setValue("country", shippingAddress.country);
-  }, []);
+  }, [
+    router,
+    setValue,
+    shippingAddress.address,
+    shippingAddress.city,
+    shippingAddress.country,
+    shippingAddress.fullName,
+    shippingAddress.postalCode,
+    userInfo,
+  ]);
 
   const classes = useStyles();
   const submitHandler = ({ fullName, address, city, postalCode, country }) => {

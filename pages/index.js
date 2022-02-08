@@ -19,7 +19,7 @@ import { Store } from "../utils/Store";
 import { useSnackbar } from "notistack";
 
 export default function Home(props) {
-  const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { products } = props;
   const { state, dispatch } = useContext(Store);
   const addToCartHandler = async (product) => {
@@ -30,6 +30,7 @@ export default function Home(props) {
       window.alert("Sorry Product is Out of Stock");
       return;
     }
+    closeSnackbar();
     dispatch({
       type: "CART_ADD_ITEM",
       payload: { ...product, quantity },

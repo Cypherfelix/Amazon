@@ -37,6 +37,9 @@ const useStyles = makeStyles({
   myLink: {
     cursor: "pointer",
   },
+  transparentBackground: {
+    backgroundColor: "transparent",
+  },
 });
 
 export default useStyles;
