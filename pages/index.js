@@ -8,7 +8,7 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
-import Layout from "../Components/Layout";
+import Layout from "../components/Layout";
 // import data from "../utils/data";
 import NextLink from "next/link";
 import db from "../utils/db";
@@ -18,13 +18,14 @@ import { useContext } from "react";
 import { Store } from "../utils/Store";
 import { useSnackbar } from "notistack";
 import { useRouter } from "next/router";
-import { getError } from "../utils/errors";
+// import { getError } from "../utils/errors";
 
 export default function Home(props) {
   const router = useRouter();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { products, error } = props;
   const { state, dispatch } = useContext(Store);
+  console.log(error);
   const addToCartHandler = async (product) => {
     const existItem = state.cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
@@ -39,6 +40,7 @@ export default function Home(props) {
       type: "CART_ADD_ITEM",
       payload: { ...product, quantity },
     });
+    closeSnackbar();
     enqueueSnackbar(product.name + " added to cart ", {
       variant: "success",
       autoHideDuration: 3000,
@@ -49,7 +51,12 @@ export default function Home(props) {
 
   if (error != null) {
     closeSnackbar();
-    enqueueSnackbar(getError(error), { variant: "error" });
+    enqueueSnackbar(
+      error.includes("MongooseServerSelectionError:")
+        ? " Not connected To Database"
+        : "Error connecting",
+      { variant: "error" }
+    );
     return (
       <Layout>
         <Button
@@ -111,13 +118,14 @@ export async function getServerSideProps() {
     return {
       props: {
         products: null,
-        error: err,
+        error: err.toString(),
       },
     };
   }
 
   const products = await Product.find({}).lean();
   await db.disconnect();
+
   return {
     props: {
       products: products.map(db.convertDocToObj),
@@ -125,3 +133,28 @@ export async function getServerSideProps() {
     },
   };
 }
+
+// eslint-disable-next-line no-unused-vars
+const serializeFields = (obj) => {
+  let serialized = {};
+  Object.keys(obj).forEach((key) => {
+    let val = obj[key];
+    if (val !== null) {
+      if (Array.isArray(val)) {
+        // Loop through array
+        val = val.map((item) => serializeFields(item));
+      } else if (
+        typeof val === "object" &&
+        typeof val.getMonth === "function"
+      ) {
+        // Perform the serialization
+        val = JSON.parse(JSON.stringify(val));
+      } else if (typeof val === "object") {
+        // Recurse nested object
+        val = serializeFields(val);
+      }
+    }
+    serialized[key] = val;
+  });
+  return serialized;
+};

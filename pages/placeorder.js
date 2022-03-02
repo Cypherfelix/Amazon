@@ -9,8 +9,8 @@ import {
   TableCell,
   TableBody,
   Link,
-  Select,
-  MenuItem,
+  // Select,
+  // MenuItem,
   Button,
   Card,
   List,
@@ -18,14 +18,14 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import React, { useContext, useEffect, useState } from "react";
-import Layout from "../Components/Layout";
+import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import NextLink from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/router";
 import useStyles from "../utils/styles";
-import CheckoutWizard from "../Components/checkoutWizard";
+import CheckoutWizard from "../components/CheckoutWizard";
 import { getError } from "../utils/errors";
 import { useSnackbar } from "notistack";
 import Cookies from "js-cookie";
@@ -46,18 +46,10 @@ function PlaceOrder() {
   const shippingPrice = itemsPrice > 200 ? 0 : 15;
   const taxPrice = round2(itemsPrice * 0.15);
   const totalPrice = round2(itemsPrice + shippingPrice + taxPrice);
-  useEffect(() => {
-    if (!paymentMethod) {
-      router.push("/payment");
-    }
-    if(cartItems.length === 0) {
-      router.push("/cart");
-    }
-  });
+
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
-  const placeOrderHandler = async () => {
-    closeSnackbar();
+  const placeOrderHandler = async (e) => {
     try {
       setLoading(true);
       const { data } = await axios.post(
@@ -77,18 +69,29 @@ function PlaceOrder() {
           },
         }
       );
-      dispatch({ type: "CART_CLEAR" });
-      Cookies.remove("cartItems");
       setLoading(false);
+      console.log(data._id);
       router.push(`/order/${data._id}`);
+      dispatch({ type: "CART_CLEAR" });
+      // Cookies.remove("cartItems");
     } catch (error) {
       setLoading(false);
+      closeSnackbar();
       enqueueSnackbar(getError(error), { variant: "error" });
     }
   };
 
+  useEffect(() => {
+    if (!paymentMethod) {
+      router.push("/payment");
+    }
+    if (Cookies.get("cartItems").length === 0) {
+      router.push("/cart");
+    }
+  });
+
   return (
-    <Layout title="Shopping Cart">
+    <Layout title="Place Order">
       <CheckoutWizard activeStep={3}></CheckoutWizard>
       <Typography component="h1" variant="h1">
         Place Order

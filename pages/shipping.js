@@ -11,12 +11,12 @@ import {
 import { useRouter } from "next/router";
 import React, { useContext, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import Layout from "../Components/Layout";
+import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import useStyles from "../utils/styles";
 // import { useSnackbar } from "notistack";
 // import Cookies from "js-cookie";
-import CheckoutWizard from "../Components/CheckoutWizard";
+import CheckoutWizard from "../components/CheckoutWizard";
 
 export default function Shipping() {
   const {
