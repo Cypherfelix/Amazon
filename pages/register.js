@@ -15,6 +15,7 @@ import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import useStyles from "../utils/styles";
 import { useSnackbar } from "notistack";
+import { getError } from "../utils/errors";
 
 export default function Register() {
   const {
@@ -47,16 +48,10 @@ export default function Register() {
         confirmPassword,
         password,
       });
-
-      console.log(data);
       dispatch({ type: "USER_LOGIN", payload: data });
-      console.log(redirect);
       router.push(redirect || "/");
     } catch (err) {
-      enqueueSnackbar(
-        err.response.data ? err.response.data.message : err.message,
-        { variant: "error" }
-      );
+      enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
   return (
@@ -183,6 +178,7 @@ export default function Register() {
               )}
             ></Controller>
           </ListItem>
+
           <ListItem>
             <Button variant="contained" type="submit" fullWidth color="primary">
               Register

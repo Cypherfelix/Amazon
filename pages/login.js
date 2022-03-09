@@ -15,6 +15,7 @@ import { Controller, useForm } from "react-hook-form";
 import Layout from "../components/Layout";
 import { Store } from "../utils/Store";
 import useStyles from "../utils/styles";
+import { getError } from "../utils/errors";
 
 export default function Login() {
   const {
@@ -47,10 +48,7 @@ export default function Login() {
       console.log(redirect);
       router.push(redirect || "/");
     } catch (err) {
-      enqueueSnackbar(
-        err.response.data ? err.response.data.message : err.message,
-        { variant: "error" }
-      );
+      enqueueSnackbar(getError(err), { variant: "error" });
     }
   };
   return (
