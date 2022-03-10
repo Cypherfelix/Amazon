@@ -2,14 +2,14 @@ import nc from "next-connect";
 import Order from "../../../models/Order";
 import User from "../../../models/User";
 import Product from "../../../models/Product";
-import { isAuth } from "../../../utils/auth";
+import { isAuth, isAdmin } from "../../../utils/auth";
 import db from "../../../utils/db";
 import { onError } from "../../../utils/errors";
 
 const handler = nc({
   onError,
 });
-handler.use(isAuth);
+handler.use(isAuth, isAdmin);
 handler.get(async (req, res) => {
   await db.connect();
   const ordersCount = await Order.countDocuments();
@@ -33,6 +33,7 @@ handler.get(async (req, res) => {
       },
     },
   ]);
+  await db.disconnect();
   res.send({ ordersCount, productsCount, usersCount, ordersPrice, salesData });
 });
 

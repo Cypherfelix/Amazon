@@ -67,11 +67,8 @@ function AdminDashboard() {
     };
     fetchData();
   }, []);
-
-  // const label = summary.salesData.map((x) => x._id);
-  console.log(summary.salesData);
   return (
-    <Layout title="Order History">
+    <Layout title="Admin Dashboard">
       <Grid container spacing={1}>
         <Grid item md={3} xs={12}>
           <Card className={classes.section}>
