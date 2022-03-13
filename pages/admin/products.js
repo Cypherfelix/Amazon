@@ -31,21 +31,21 @@ function reducer(state, action) {
     case "FETCH_REQUEST":
       return { ...state, loading: true, error: "" };
     case "FETCH_SUCCESS":
-      return { ...state, loading: false, orders: action.payload, error: "" };
+      return { ...state, loading: false, products: action.payload, error: "" };
     case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
     default:
       state;
   }
 }
-function Orders() {
+function Products() {
   const router = useRouter();
   const { state } = useContext(Store);
   const { userInfo } = state;
   const classes = useStyles();
-  const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, products }, dispatch] = useReducer(reducer, {
     loading: true,
-    orders: [],
+    products: [],
     error: "",
   });
   useEffect(() => {
@@ -54,9 +54,9 @@ function Orders() {
     }
     const fetchData = async () => {
       try {
-        // const { data } = await axios.get(`/api/orders/${orderId}`);
+        // const { data } = await axios.get(`/api/products/${productId}`);
         dispatch({ type: "FETCH_REQUEST" });
-        const { data } = await axios.get(`/api/admin/orders`, {
+        const { data } = await axios.get(`/api/admin/products`, {
           headers: {
             authorization: `Bearer ${userInfo.token}`,
           },
@@ -69,7 +69,7 @@ function Orders() {
     fetchData();
   }, []);
   return (
-    <Layout title="Orders History">
+    <Layout title="Products History">
       <Grid container spacing={1}>
         <Grid item md={3} xs={12}>
           <Card className={classes.section}>
@@ -80,12 +80,12 @@ function Orders() {
                 </ListItem>
               </NextLink>
               <NextLink href={"/admin/orders"} passHref>
-                <ListItem selected buttton component="a">
+                <ListItem buttton component="a">
                   <ListItemText primary="Orders"></ListItemText>
                 </ListItem>
               </NextLink>
               <NextLink href={"/admin/products"} passHref>
-                <ListItem buttton component="a">
+                <ListItem selected buttton component="a">
                   <ListItemText primary="Products"></ListItemText>
                 </ListItem>
               </NextLink>
@@ -97,7 +97,7 @@ function Orders() {
             <List>
               <ListItem>
                 <Typography component="h1" variant="h2">
-                  Orders
+                  Products
                 </Typography>
               </ListItem>
 
@@ -112,37 +112,38 @@ function Orders() {
                       <TableHead>
                         <TableRow>
                           <TableCell>ID</TableCell>
-                          <TableCell>USER</TableCell>
-                          <TableCell>DATE</TableCell>
-                          <TableCell>TOTAL</TableCell>
-                          <TableCell>PAID</TableCell>
-                          <TableCell>DELIVERED</TableCell>
+                          <TableCell>NAME</TableCell>
+                          <TableCell>PRICE</TableCell>
+                          <TableCell>CATEGORY</TableCell>
+                          <TableCell>COUNT</TableCell>
+                          <TableCell>RATING</TableCell>
                           <TableCell>ACTION</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {orders.map((order) => (
-                          <TableRow key={order._id}>
-                            <TableCell>{order._id.substring(20, 24)}</TableCell>
+                        {products.map((product) => (
+                          <TableRow key={product._id}>
                             <TableCell>
-                              {order.user ? order.user.name : "Deleted User"}
+                              {product._id.substring(20, 24)}
                             </TableCell>
-                            <TableCell>{order.createdAt}</TableCell>
-                            <TableCell>$ {order.totalPrice}</TableCell>
+                            <TableCell>{product.name}</TableCell>
+                            <TableCell>$ {product.price}</TableCell>
+                            <TableCell>{product.category}</TableCell>
+                            <TableCell>{product.countInStock}</TableCell>
+                            <TableCell>{product.rating}</TableCell>
                             <TableCell>
-                              {order.isPaid
-                                ? `paid at ${order.paidAt}`
-                                : "not paid"}
-                            </TableCell>
-                            <TableCell>
-                              {order.isDelivered
-                                ? `delivered at ${order.deliveredAt}`
-                                : "not delivered"}
-                            </TableCell>
-                            <TableCell>
-                              <NextLink href={`/order/${order._id}`} passHref>
-                                <Button variant="contained">Details</Button>
+                              <NextLink
+                                href={`/admin/product/${product._id}`}
+                                passHref
+                              >
+                                <Button size="small" variant="contained">
+                                  Edit
+                                </Button>
                               </NextLink>
+                              {"  "}
+                              <Button size="small" variant="contained">
+                                Delete
+                              </Button>
                             </TableCell>
                           </TableRow>
                         ))}
@@ -159,4 +160,4 @@ function Orders() {
   );
 }
 
-export default dynamic(() => Promise.resolve(Orders), { ssr: false });
+export default dynamic(() => Promise.resolve(Products), { ssr: false });

@@ -49,7 +49,7 @@ function PlaceOrder() {
 
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
-  const placeOrderHandler = async (e) => {
+  const placeOrderHandler = async () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
