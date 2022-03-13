@@ -117,7 +117,7 @@ function Products() {
                           <TableCell>CATEGORY</TableCell>
                           <TableCell>COUNT</TableCell>
                           <TableCell>RATING</TableCell>
-                          <TableCell>ACTION</TableCell>
+                          <TableCell>ACTIONS</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
