@@ -25,7 +25,6 @@ export default function Home(props) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { products, error } = props;
   const { state, dispatch } = useContext(Store);
-  console.log(error);
   const addToCartHandler = async (product) => {
     const existItem = state.cart.cartItems.find((x) => x._id === product._id);
     const quantity = existItem ? existItem.quantity + 1 : 1;
