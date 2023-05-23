@@ -187,6 +187,7 @@ function Order({ params }) {
       dispatch({ type: "PAY_SUCCESS", payload: data });
       console.log(data);
       enqueueSnackbar("Order is paid", { variant: "success" });
+      router.push(`/order-history`);
     } catch (error) {
       dispatch({ type: "PAY_FAIL", payload: getError(error) });
       enqueueSnackbar(getError(error), { variant: "error" });
