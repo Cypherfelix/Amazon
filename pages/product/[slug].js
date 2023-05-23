@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 // import { useRouter } from "next/router";
 import Image from "next/image";
 // import data from "../../utils/data";
-import Layout from "../../Components/Layout";
+import Layout from "../../components/Layout";
 import NextLink from "next/link";
 import {
   Button,
