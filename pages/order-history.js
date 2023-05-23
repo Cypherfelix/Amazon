@@ -67,6 +67,7 @@ function OrderHistory() {
       }
     };
     fetchOrder();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <Layout title="Order History">
