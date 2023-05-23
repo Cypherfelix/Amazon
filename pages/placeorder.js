@@ -25,7 +25,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/router";
 import useStyles from "../utils/styles";
-import CheckoutWizard from "../components/CheckoutWizard";
+import CheckoutWizard from "../components/checkoutWizard";
 import { getError } from "../utils/errors";
 import { useSnackbar } from "notistack";
 import Cookies from "js-cookie";

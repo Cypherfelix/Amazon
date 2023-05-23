@@ -16,7 +16,7 @@ import { Store } from "../utils/Store";
 import useStyles from "../utils/styles";
 // import { useSnackbar } from "notistack";
 // import Cookies from "js-cookie";
-import CheckoutWizard from "../components/CheckoutWizard";
+import CheckoutWizard from "../components/checkoutWizard";
 
 export default function Shipping() {
   const {
